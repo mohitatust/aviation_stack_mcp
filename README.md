@@ -1,6 +1,7 @@
-# Aviation Stack MCP
+# ✈️ Aviation Stack MCP Server
 
-This project implements the MCP tools that can be used by Claude and other MCP-compatible models.
+This project implements an MCP Server and tools to query [Aviation Stack](https://aviationstack.com/), a real-time Flight Status & Global Aviation Data API.
+
 
 ## What is Model Context Protocol?
 
@@ -16,6 +17,19 @@ pip install aviation-stack-mcp
 pip install -e .
 ```
 
+## Setup
+🔐 Set your API key as an environment variable to enable access to the MCP server.
+Register and fetch your API keys from the [aviation stack website](https://aviationstack.com/). 
+
+Set the AVIATION_STACK_API_KEY key as an environment variable:
+```bash
+# On Unix/macOS
+export AVIATION_STACK_API_KEY="your-api-key-here"
+
+# On Windows (PowerShell)
+$env:AVIATION_STACK_API_KEY="your-api-key-here"
+```
+
 ## Usage
 
 Start the MCP server:
@@ -28,21 +42,11 @@ aviation-stack-mcp --connection_type stdio
 python main.py --connection_type stdio
 ```
 
-## Environment Variables
-Register and fetch your API keys from the [aviation stack website](https://aviationstack.com/). 
 
-Set the AVIATION_STACK_API_KEY key as an environment variable:
-```bash
-# On Unix/macOS
-export AVIATION_STACK_API_KEY="your-api-key-here"
-
-# On Windows (PowerShell)
-$env:AVIATION_STACK_API_KEY="your-api-key-here"
-```
 
 ## Features
-- Flight search by IATA number
-- Flight duplication finder
+- 🔍Flight search by IATA number
+- ⏳Flight duplication finder
 
 
 ## License
