@@ -10,8 +10,13 @@ The Model Context Protocol (MCP) is a standard developed by Anthropic that enabl
 ## Installation
 
 ```bash
-# Install from PyPI
+# Install from Test PyPI
 pip install -i https://test.pypi.org/simple/ aviation-stack-mcp
+
+# To install from Test PyPI and bypass SSL verification issues, you need to update your trusted hosts to match the test.pypi.org domain.
+pip install -i https://test.pypi.org/simple/ aviation-stack-mcp \
+  --trusted-host test.pypi.org \
+  --trusted-host files.pythonhosted.org
 
 # Or install from the project directory (development mode)
 pip install -e .
