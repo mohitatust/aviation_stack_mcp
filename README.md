@@ -36,10 +36,10 @@ Start the MCP server:
 
 ```bash
 # Using the command-line entry point
-aviation-stack-mcp --connection_type stdio
+aviation-stack-mcp --connection_type http
 
 # Or run directly
-python main.py --connection_type stdio
+python main.py --connection_type http
 ```
 
 
