@@ -3,6 +3,7 @@ import requests
 
 from aviation_stack_mcp.config import (
     DEFAULT_CONNECTION_TYPE,
+    DEFAULT_PORT,
     AVIATION_STACK_API_KEY,
 )
 from aviation_stack_mcp.utils import fetch_flights_data, logger
@@ -12,14 +13,14 @@ from mcp.server.fastmcp import FastMCP
 mcp = FastMCP("aviation_stack_mcp")
 
 
-def create_mcp_server():
+def create_mcp_server(port=DEFAULT_PORT):
     """
     Create and configure the Model Context Protocol server.
 
     Returns:
         Configured MCP server instance
     """
-    mcp = FastMCP("AviationStackMcpServer")
+    mcp = FastMCP("AviationStackMcpServer", port=port)
 
     # Register MCP-compliant tools
     register_tools(mcp)
@@ -38,7 +39,7 @@ def register_tools(mcp):
     """
 
     @mcp.tool()
-    async def search_flights_tool(flight_number: str):
+    def search_flights_tool(flight_number: str):
         """
         Search for flights using the IATA flight number on the AVIATION STACK API.
 
@@ -51,7 +52,7 @@ def register_tools(mcp):
         Returns:
             flight details
         """
-        return await search_flight_by_number(flight_number)
+        return search_flight_by_number(flight_number)
 
     @mcp.tool()
     async def find_flight_duplicates_tools(flight_number: str):
@@ -181,21 +182,31 @@ def main():
         "--connection_type",
         type=str,
         default=DEFAULT_CONNECTION_TYPE,
-        choices=["stdio"],
-        help="Connection type (stdio)",
+        choices=["http", "stdio"],
+        help="Connection type (http or stdio)",
     )
-    # args = parser.parse_args()
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=DEFAULT_PORT,
+        help=f"Port to run the server on (default: {DEFAULT_PORT})",
+    )
+    args = parser.parse_args()
 
-    transport_type = "stdio"
     # Initialize MCP server
-    mcp = create_mcp_server()
+    mcp = create_mcp_server(port=args.port)
+    # Determine server type
+    server_type = "sse" if args.connection_type == "http" else "stdio"
 
     logger.info(
-        f"🚀 Starting Aviation Stack MCP Service with {transport_type} connection"
+        f"🚀 Starting Aviation Stack MCP Service with {args.connection_type} connection"
     )
 
+    # Determine server type
+    server_type = "sse" if args.connection_type == "http" else "stdio"
+
     # Start the server
-    mcp.run(transport=transport_type)
+    mcp.run(transport=server_type)
 
 
 if __name__ == "__main__":
