@@ -11,7 +11,7 @@ The Model Context Protocol (MCP) is a standard developed by Anthropic that enabl
 
 ```bash
 # Install from PyPI
-pip install aviation-stack-mcp
+pip install -i https://test.pypi.org/simple/ aviation-stack-mcp
 
 # Or install from the project directory (development mode)
 pip install -e .
